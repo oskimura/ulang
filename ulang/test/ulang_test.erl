@@ -7,7 +7,7 @@ compile(Text) ->
             case ulang_yecc:parse(Ret) of
                 {ok,Spec} ->
                     case compile:noenv_forms(Spec,[return]) of
-                        {ok,Module,Binary,Worning} ->
+                        {ok,Module,Binary,_} ->
                             {Module,Binary};
                         {error,What} ->
                             error:error(What)
@@ -29,3 +29,9 @@ module_test() ->
     {Module,Bin} = compile("module test\nexport [(f,1)]\nfn f(x)->{x}"),
     load(Module,Bin),
     ?assert(test:f(1) == 1).
+
+noarg_fun_test() ->
+    {Module,Bin} = compile("module test\nexport [(f,0)]\nfn f()->{1}"),
+    load(Module,Bin),
+    ?assert(test:f() == 1).
+

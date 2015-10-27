@@ -51,6 +51,14 @@ function ->
           }]
         }.
 
+function ->
+    'fn' var '('  ')' '->'  '{' exps '}' :
+        {function,?line('$1'),element(3,'$2'), 0,
+         [{clause,?line('$1'),[],[],
+           '$7'
+          }]
+        }.
+
 args ->
     arg ',' args :
         [ '$1' | '$3' ].
@@ -114,6 +122,10 @@ false_exp ->
 op_exp ->
     exp op exp :
         {op, ?line('$1'), element(3,'$2'), '$1', '$3' }.
+
+call_exp ->
+    var '(' ')':
+        {call, ?line('$1'),var_to_atom('$1'),nil}.
 
 call_exp ->
     var '(' exps ')' :
