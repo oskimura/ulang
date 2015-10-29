@@ -28,7 +28,7 @@ fundecs ->
     fundec : [ '$1' ].
 fundecs ->
     fundec ',' fundecs :
-        [ '$1', '$3' ].
+        [ '$1' | '$3' ].
 
 fundec ->
     '(' var ',' int ')' :
