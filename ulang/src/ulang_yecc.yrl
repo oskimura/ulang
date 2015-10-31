@@ -1,4 +1,4 @@
-Nonterminals program module_exp functions function args arg while_exp let_exp  exp exps if_exp test_exp true_exp false_exp op_exp call_exp stmt list_exp tail_exp export_exp fundecs fundec.
+Nonterminals program module_exp functions function args arg while_exp let_exp  exp exps if_exp test_exp true_exp false_exp op_exp call_exp stmt list_exp tail_exp  export_exp fundecs fundec tuple_exp tuple_build.
 
 Terminals '(' ')'  '->' '<-' '{' '}' '[' ']' '<' '>' '<=' '>=' ',' 'fn' 'let' 'if' 'then' 'else' 'module' ';' 'end' 'export' int atom char string var op.
 
@@ -91,6 +91,9 @@ exp ->
 exp ->
     call_exp : '$1'.
 exp ->
+    tuple_exp : '$1'. 
+
+exp ->
     int : {integer, ?line('$1'), string_to_integer(element(3,'$1'))}.
 exp ->
     string : '$1'.
@@ -143,7 +146,18 @@ tail_exp ->
 tail_exp ->
      ']':
         {nil, ?line('$1')}.
-     
+tuple_exp ->
+    '(' ')' :
+        {tuple, ?line('$1'),[]}.
+tuple_exp ->
+    '(' tuple_build ')' :
+        {tuple, ?line('$1'), '$2'}.
+tuple_build ->
+     exp ',' tuple_build :
+        [ '$1' | '$3' ].
+tuple_build ->    
+    exp :
+        [ '$1' ].
 
 
 Erlang code.
