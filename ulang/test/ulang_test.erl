@@ -35,6 +35,11 @@ noarg_fun_test() ->
     load(Module,Bin),
     ?assert(test:f() == 1).
 
+puls_test() ->
+    {Module,Bin} = compile("module test\nexport [(f,0)]\nfn f()->{1+1}"),
+    load(Module,Bin),
+    ?assert(test:f() == 2).
+
 tuple_test() ->
     {Module,Bin} = compile("module test\nexport [(f0,0),(f1,0),(f2,0)]\n fn f0()->{()};\nfn f1()->{(1)};\nfn f2()->{(1,2,3)}"),
     load(Module,Bin),
