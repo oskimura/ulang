@@ -1,6 +1,0 @@
-language: erlang
-otp_release:
-        - R17
-        - R15B
-notifications:
-        disabled: true
