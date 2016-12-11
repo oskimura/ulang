@@ -1,0 +1,4 @@
+#!/bin/sh
+ERL="erl"
+
+exec "$ERL" -pa ../ebin -noshell -noinput -run  compiler file "$@" -run  init stop 
