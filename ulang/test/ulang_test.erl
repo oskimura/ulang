@@ -6,6 +6,7 @@ compile(Text) ->
         {ok,Ret,_} ->
             case ulang_yecc:parse(Ret) of
                 {ok,Spec} ->
+                    io:format("spec:~p~n",[Spec]),
                     case compile:noenv_forms(Spec,[return]) of
                         {ok,Module,Binary,_} ->
                             {Module,Binary};
