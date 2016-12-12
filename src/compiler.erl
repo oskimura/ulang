@@ -91,22 +91,22 @@ eval(Bin,Env) ->
                     case ulang_yecc:parse(Ret) of
                         {ok,Spec} ->
                             io:format("~p~n",[Spec]),
-			    try erl_eval:exprs(Spec, Env, none,none) of
-				{value, Value, NewBind} ->
-				    {Value,NewBind}
-			    catch
-				Class:Exception ->
-				    erlang:error({"eval error",{Class,Exception}})
-				end;
-			{error,Reason} ->
+                            try erl_eval:exprs(Spec, Env, none,none) of
+                                {value, Value, NewBind} ->
+                                    {Value,NewBind}
+                            catch
+                                Class:Exception ->
+                                    erlang:error({"eval error",{Class,Exception}})
+                                end;
+                        {error,Reason} ->
                             erlang:error({"parse error",Reason});
                         _ ->
                             erlang:error("parse error")
                     end;
-	{error,Reason,_} ->
-	    erlang:error({"lex error",Reason});
-	_ ->
-	    erlang:error("lex error")
+        {error,Reason,_} ->
+            erlang:error({"lex error",Reason});
+        _ ->
+            erlang:error("lex error")
     end.
 
 
