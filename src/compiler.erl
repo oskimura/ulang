@@ -1,8 +1,8 @@
 -module(compiler).
 -export([file/1,
-	 compile/1,
-	 eval/2,
-	 repl/0]).
+         compile/1,
+         eval/2,
+         repl/0]).
 
 file(File) ->
     case file:read_file(File) of
@@ -15,7 +15,7 @@ file(File) ->
                             io:format("~p~n",[Spec]),
                             case compile:noenv_forms(Spec,[return]) of
                                 {ok,Module,Binary,Warnings} ->
-				    io:format("m:~s~nw:~p~n",[Module,Warnings]),
+                                    io:format("m:~s~nw:~p~n",[Module,Warnings]),
                                     case code:load_binary(Module,Module,Binary) of
                                         {module,Module} ->
                                             Bin;
@@ -54,20 +54,20 @@ compile(File) ->
                             io:format("~p~n",[Spec]),
                             case compile:noenv_forms(Spec,[return]) of
                                 {ok,Module,Binary,Warnings} ->
-				    case file:open(Module,[write,binary]) of
-					{ok,Dev} ->
-					    io:format("binret:~p",[Binary]),
-					    file:write(Dev,Binary),
-					    file:close(Dev);
-					{error,Reason} ->
-					    erlang:error({"file error",Reason})
-				    end;
-				error ->
+                                    case file:open(Module,[write,binary]) of
+                                        {ok,Dev} ->
+                                            io:format("binret:~p",[Binary]),
+                                            file:write(Dev,Binary),
+                                            file:close(Dev);
+                                        {error,Reason} ->
+                                            erlang:error({"file error",Reason})
+                                    end;
+                                error ->
                                     erlang:error({"compile errord"});
                                 {error,Error,Warning} ->
                                     erlang:error({"compile error",Error,Warning})
 
-			    
+                            
                                 end;
                         {error,Reason} ->
                             erlang:error({"parse error",Reason});
