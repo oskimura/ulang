@@ -1,5 +1,8 @@
 -module(compiler).
--export([file/1]).
+-export([file/1,
+	 compile/1,
+	 eval/2,
+	 repl/0]).
 
 file(File) ->
     case file:read_file(File) of
