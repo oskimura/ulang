@@ -2,4 +2,4 @@
 ERL="erl"
 
 echo "$ERL" -pa ../ebin -noshell -noinput -run  compiler file "$@" 
-exec "$ERL" -pa ../ebin  -run  compiler file "$@" 
+exec "$ERL" -pa ../ebin  --no-halt -noshell -run  compiler repl  
