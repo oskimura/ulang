@@ -11,7 +11,7 @@ file(File) ->
                         {ok,Spec} ->
                             io:format("~p~n",[Spec]),
                             case compile:noenv_forms(Spec,[return]) of
-                                {ok,Module,Binary,Wornings} ->
+                                {ok,Module,Binary,Warnings} ->
                                     case code:load_binary(Module,Module,Binary) of
                                         {module,Module} ->
                                             Bin;
