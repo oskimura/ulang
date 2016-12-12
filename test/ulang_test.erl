@@ -48,3 +48,18 @@ tuple_test() ->
     ?assert(test:f1()=={1}),
     ?assert(test:f2()=={1,2,3}).
 
+if_test() ->
+    {Module,Bin} = compile("module test\nexport [(f,0)]\nfn f()->{if 1==1 then 1 else 2 end}"),
+    load(Module,Bin),
+    ?assert(test:f() == 1).
+
+let_test() ->
+    {Module,Bin} = compile("module test\nexport [(f,0)]\nfn f()->{let x <- 1;x}"),
+    load(Module,Bin),
+    ?assert(test:f() == 1).
+
+list_test() ->
+    {Module,Bin} = compile("module test\nexport [(f,0),(f1,0)]\nfn f()->{[]}; \n fn f1()->{[1,2,3]}"),
+    load(Module,Bin),
+    ?assert(test:f() == []),
+    ?assert(test:f1() == [1,2,3]).
