@@ -15,6 +15,7 @@ file(File) ->
                             io:format("~p~n",[Spec]),
                             case compile:noenv_forms(Spec,[return]) of
                                 {ok,Module,Binary,Warnings} ->
+				    io:format("m:~s~nw:~p~n",[Module,Warnings]),
                                     case code:load_binary(Module,Module,Binary) of
                                         {module,Module} ->
                                             Bin;
