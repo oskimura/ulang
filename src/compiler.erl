@@ -91,7 +91,7 @@ eval(Bin,Env) ->
                     case ulang_yecc:parse(Ret) of
                         {ok,Spec} ->
                             io:format("~p~n",[Spec]),
-			    try erl_eval:expr(Spec, Env, none,none,none) of
+			    try erl_eval:exprs(Spec, Env, none,none) of
 				{value, Value, NewBind} ->
 				    {Value,NewBind}
 			    catch
