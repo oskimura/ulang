@@ -15,6 +15,8 @@ program ->
 program ->
     module_exp export_exp exps: [ '$1', '$2' | '$3' ].
 
+program ->
+    exps:  '$1'.
 
 module_exp ->
     'module' var:
