@@ -1,0 +1,4 @@
+#!/bin/sh
+ERL="erl"
+
+exec "$ERL" -pa ../ebin  --no-halt -noshell -run  compiler repl 

@@ -1,5 +1,5 @@
 #!/bin/sh
 ERL="erl"
 
-echo "$ERL" -pa ../ebin -noshell -noinput -run  compiler file "$@" 
-exec "$ERL" -pa ../ebin  --no-halt -noshell -run  compiler repl  
+echo "$ERL" -pa ../ebin  -noshell -noinput -run  compiler execute "$@"
+exec "$ERL" -pa ../ebin  -noshell -noinput -run  compiler execute "$@" -run init stop
