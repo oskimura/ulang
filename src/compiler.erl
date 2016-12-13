@@ -9,10 +9,10 @@ file(File) ->
         {ok,Bin} ->
             case ulang:string(binary_to_list(Bin)) of
                 {ok,Ret,_} ->
-                    io:format("~p~n",[Ret]),
+                    io:format("lexer:~p~n",[Ret]),
                     case ulang_yecc:parse(Ret) of
                         {ok,Spec} ->
-                            io:format("~p~n",[Spec]),
+                            io:format("parser:~p~n",[Spec]),
                             case compile:noenv_forms(Spec,[return]) of
                                 {ok,Module,Binary,Warnings} ->
 				    io:format("m:~s~nw:~p~n",[Module,Warnings]),
