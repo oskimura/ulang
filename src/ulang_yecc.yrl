@@ -1,6 +1,6 @@
-Nonterminals program module_exp functions function args arg while_exp let_exp  exp exps if_exp test_exp true_exp false_exp op_exp call_exp stmt list_exp tail_exp  export_exp fundecs fundec tuple_exp tuple_build.
+Nonterminals program module_exp functions function args arg while_exp let_exp  exp exps if_exp test_exp true_exp false_exp op_exp call_exp remote_call_exp stmt list_exp tail_exp  export_exp fundecs fundec tuple_exp tuple_build.
 
-Terminals '(' ')'  '->' '<-' '{' '}' '[' ']' '<' '>' '<=' '>=' ',' 'fn' 'let' 'if' 'then' 'else' 'module' ';' 'end' 'export' int atom char string var op.
+Terminals '.' '(' ')'  '->' '<-' '{' '}' '[' ']' '<' '>' '<=' '>=' ',' 'fn' 'let' 'if' 'then' 'else' 'module' ';' 'end' 'export' int atom char string var op.
 
 
 Rootsymbol program.
@@ -93,6 +93,8 @@ exp ->
 exp ->
     call_exp : '$1'.
 exp ->
+    remote_call_exp : '$1'.
+exp ->
     tuple_exp : '$1'. 
 
 exp ->
@@ -135,6 +137,14 @@ call_exp ->
 call_exp ->
     var '(' exps ')' :
         {call, ?line('$1'),var_to_atom('$1'),'$3'}.
+
+remote_call_exp ->
+    var '.' var  '(' ')' :
+        {call, ?line('$1'), {remote, ?line('$1'), var_to_atom('$1'), var_to_atom('$3')}, nil}.
+
+remote_call_exp ->
+    var '.' var  '(' exps ')' :
+        {call, ?line('$1'), {remote, ?line('$1'), var_to_atom('$1'), var_to_atom('$3')}, '$5'}.
 
 list_exp ->
     '[' ']': {nil, ?line('$1')}.
