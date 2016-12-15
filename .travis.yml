@@ -6,4 +6,7 @@ otp_release:
         - 17.5
         - R15B
 notifications:
-        disabled: true
+        on_success: always
+        on_failure: always
+        on_start: always
+        webhooks: 'https://aqueous-fortress-79036.herokuapp.com/travisci/hooks'
