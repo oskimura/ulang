@@ -55,7 +55,7 @@ compile(File) ->
                             io:format("~p~n",[Spec]),
                             case compile:noenv_forms(Spec,[return]) of
                                 {ok,Module,Binary,Warnings} ->
-                                    case file:open(Module,[write,binary]) of
+                                    case file:open(atom_to_list(Module) ++ ".beam",[write,binary]) of
                                         {ok,Dev} ->
                                             io:format("binret:~p",[Binary]),
                                             file:write(Dev,Binary),
