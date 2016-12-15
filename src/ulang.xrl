@@ -50,6 +50,8 @@ end     : {token,{'end', TokenLine}}.
 \(            : {token, {'(',  TokenLine}}.
 \)            : {token, {')',  TokenLine}}.
 
+\.            : {token, {'.',  TokenLine}}.
+
 
 
 ,             : {token, {',',  TokenLine}}.

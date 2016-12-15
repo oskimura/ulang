@@ -2,7 +2,8 @@
 -export([file/1,
          compile/1,
          eval/2,
-         repl/0]).
+         repl/0,
+         execute/1]).
 
 file(File) ->
     case file:read_file(File) of
@@ -54,7 +55,7 @@ compile(File) ->
                             io:format("~p~n",[Spec]),
                             case compile:noenv_forms(Spec,[return]) of
                                 {ok,Module,Binary,Warnings} ->
-                                    case file:open(Module,[write,binary]) of
+                                    case file:open(atom_to_list(Module) ++ ".beam",[write,binary]) of
                                         {ok,Dev} ->
                                             io:format("binret:~p",[Binary]),
                                             file:write(Dev,Binary),
@@ -118,3 +119,21 @@ repl(Env) ->
     {Val,NEnv}= eval(Expr,Env),
     io:format("#~p~n",[Val]),
     repl(NEnv).
+
+execute(File) ->
+    Env = erl_eval:bindings(erl_eval:new_bindings()),
+    execute(File,Env).
+
+execute(File,Env) ->
+    case file:read_file(File) of
+        {ok,Bin} ->
+	    try eval(binary_to_list(Bin),Env) of
+		{Val,_} ->
+		    io:format("~p~n",[Val])
+	    catch
+		{error,Reason} ->
+		    erlang:error({"parse error",Reason})
+	    end;
+	_ ->
+            erlang:error("file read error")
+    end.

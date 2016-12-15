@@ -63,3 +63,8 @@ list_test() ->
     load(Module,Bin),
     ?assert(test:f() == []),
     ?assert(test:f1() == [1,2,3]).
+
+remotecall_test() ->
+    {Module,Bin} = compile("module test\nexport [(f,0)]\nfn f()->{io.format(\"test\")}"),
+    load(Module,Bin),
+    ?assert(test:f() == ok).
