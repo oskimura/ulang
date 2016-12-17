@@ -3,7 +3,9 @@
          compile/1,
          eval/2,
          repl/0,
-         execute/1]).
+         execute/1,
+         command/1,
+         command/2]).
 
 file(File) ->
     case file:read_file(File) of
@@ -19,7 +21,7 @@ file(File) ->
                                     io:format("m:~s~nw:~p~n",[Module,Warnings]),
                                     case code:load_binary(Module,Module,Binary) of
                                         {module,Module} ->
-                                            Bin;
+                                            Module;
                                         {error,What} ->
                                             erlang:error({"load error",What}) 
                                     end;
@@ -137,3 +139,10 @@ execute(File,Env) ->
 	_ ->
             erlang:error("file read error")
     end.
+
+
+command(File) ->
+    command(File,[]).
+command(File,Args) ->
+    Module = file(File),
+    Module:main(Args).

@@ -1,5 +1,9 @@
 module test
-export [(f0,0),(f1,0),(f2,0)]
+export [(f0,0),(f1,0),(f2,0), (main,1)]
 fn f0()->{()};
 fn f1()->{(1)};
-fn f2()->{(1,2,3)}
+fn f2()->{(1,2,3)};
+
+fn main (args) -> {
+	io.format("hello~n")
+}
