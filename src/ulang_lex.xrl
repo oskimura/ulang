@@ -33,8 +33,6 @@ let     : {token,{'let', TokenLine}}.
 \{      : {token,{'{', TokenLine}}.
 \}      : {token,{'}', TokenLine}}.
 ;      : {token,{';', TokenLine}}.
-fn      : {token,{'fn', TokenLine}}.
-let     : {token,{'let', TokenLine}}.
 if      : {token,{'if', TokenLine}}.
 then      : {token,{'then', TokenLine}}.
 else      : {token,{'else', TokenLine}}.
