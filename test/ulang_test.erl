@@ -7,7 +7,7 @@ file_test() ->
     ?assert(compiler:file("../test/fib.u") == 'fib').
 
 compile(Text) ->
-    case ulang:string(Text) of
+    case ulang_lex:string(Text) of
         {ok,Ret,_} ->
             case ulang_yecc:parse(Ret) of
                 {ok,Spec} ->
