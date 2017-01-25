@@ -7,43 +7,64 @@
          command/1,
          command/2]).
 
-file(File) ->
+
+call_with_read_file(File,Fun) ->
     case file:read_file(File) of
         {ok,Bin} ->
-            case ulang_lex:string(binary_to_list(Bin)) of
-                {ok,Ret,_} ->
-                    io:format("lexer:~p~n",[Ret]),
-                    case ulang_yecc:parse(Ret) of
-                        {ok,Spec} ->
-                            io:format("parser:~p~n",[Spec]),
-                            case compile:noenv_forms(Spec,[return]) of
-                                {ok,Module,Binary,Warnings} ->
-                                    io:format("m:~s~nw:~p~n",[Module,Warnings]),
-                                    case code:load_binary(Module,Module,Binary) of
-                                        {module,Module} ->
-                                            Module;
-                                        {error,What} ->
-                                            erlang:error({"load error",What}) 
-                                    end;
-                                 error ->
-                                    erlang:error({"compile errord"});
-                                {error,Error,Warning} ->
-                                    erlang:error({"compile error",Error,Warning})
-                                end;
-                        {error,Reason} ->
-                            erlang:error({"parse error",Reason});
-                        _ ->
-                            erlang:error("parse error")
-                    end;
-                {error,Reason,_} ->
-                    erlang:error({"lex error",Reason});
-                _ ->
-                    erlang:error("lex error")
-            end;
+            Fun(Bin);
         _ ->
             erlang:error("file read error")
     end.
 
+lexer(String) ->
+    case ulang_lex:string(String) of
+        {ok,Ret,_} ->
+            io:format("lexer:~p~n",[Ret]),
+            Ret;
+        {error,Reason,_} ->
+            erlang:error({"lex error",Reason});
+        _ ->
+            erlang:error("lex error")
+    end.
+
+parser(LexedText) ->
+    case ulang_yecc:parse(LexedText) of
+        {ok,Spec} ->
+            io:format("parser:~p~n",[Spec]),
+            Spec;
+        {error,Reason} ->
+            erlang:error({"parse error",Reason});
+        _ ->
+            erlang:error("parse error")
+    end.
+
+compiler(ParsedAst) ->
+    case compile:noenv_forms(ParsedAst,[return]) of
+        {ok,Module,Binary,Warnings} ->
+            {Module,Binary,Warnings};
+        error ->
+            erlang:error({"compile errord"});
+        {error,Error,Warning} ->
+            erlang:error({"compile error",Error,Warning})
+    end.
+    
+loader({Module,Binary,Warnings}) ->
+    io:format("m:~s~nw:~p~n",[Module,Warnings]),
+    case code:load_binary(Module,Module,Binary) of
+        {module,Module} ->
+            Module;
+        {error,What} ->
+            erlang:error({"load error",What}) 
+    end.
+
+file(File) ->
+    call_with_read_file(File,
+                        fun(Bin) ->
+                                Lexed = lexer(binary_to_list(Bin)),
+                                AST = parser(Lexed),
+                                Compiled = compiler(AST),
+                                loader(Compiled)
+                        end).
 
 
 compile(File) ->

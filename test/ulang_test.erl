@@ -1,6 +1,11 @@
 -module(ulang_test).
 -include_lib("eunit/include/eunit.hrl").
 
+
+file_test() ->
+    
+    ?assert(compiler:file("../test/fib.u") == 'fib').
+
 compile(Text) ->
     case ulang:string(Text) of
         {ok,Ret,_} ->
