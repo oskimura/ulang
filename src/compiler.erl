@@ -10,7 +10,7 @@
 file(File) ->
     case file:read_file(File) of
         {ok,Bin} ->
-            case ulang:string(binary_to_list(Bin)) of
+            case ulang_lex:string(binary_to_list(Bin)) of
                 {ok,Ret,_} ->
                     io:format("lexer:~p~n",[Ret]),
                     case ulang_yecc:parse(Ret) of
@@ -49,7 +49,7 @@ file(File) ->
 compile(File) ->
     case file:read_file(File) of
         {ok,Bin} ->
-            case ulang:string(binary_to_list(Bin)) of
+            case ulang_lex:string(binary_to_list(Bin)) of
                 {ok,Ret,_} ->
                     io:format("~p~n",[Ret]),
                     case ulang_yecc:parse(Ret) of
@@ -88,7 +88,7 @@ compile(File) ->
 
 
 eval(Bin,Env) ->
-    case ulang:string(Bin) of
+    case ulang_lex:string(Bin) of
                 {ok,Ret,_} ->
                     io:format("~p~n",[Ret]),
                     case ulang_yecc:parse(Ret) of
