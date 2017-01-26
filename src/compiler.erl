@@ -75,7 +75,7 @@ file(File) ->
                                 Compiled = compiler(AST),
                                 loader(Compiled)
                         end).
-
+   
 
 compile(File) ->
     call_with_read_file(File,
@@ -114,14 +114,14 @@ execute(File) ->
 execute(File,Env) ->
     case file:read_file(File) of
         {ok,Bin} ->
-	    try eval(binary_to_list(Bin),Env) of
-		{Val,_} ->
-		    io:format("~p~n",[Val])
-	    catch
-		{error,Reason} ->
-		    erlang:error({"parse error",Reason})
-	    end;
-	_ ->
+            try eval(binary_to_list(Bin),Env) of
+                {Val,_} ->
+                    io:format("~p~n",[Val])
+            catch
+                {error,Reason} ->
+                    erlang:error({"parse error",Reason})
+            end;
+        _ ->
             erlang:error("file read error")
     end.
 
