@@ -6,6 +6,10 @@ file_test() ->
     
     ?assert(compiler:file("../test/fib.u") == 'fib').
 
+compiler_test() ->
+    compiler:compile("../test/fib.u"),
+    ?assert(filelib:is_file("fib.beam")).
+   
 compile(Text) ->
     case ulang_lex:string(Text) of
         {ok,Ret,_} ->
