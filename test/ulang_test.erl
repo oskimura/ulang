@@ -53,6 +53,12 @@ if_test() ->
     load(Module,Bin),
     ?assert(test:f() == 1).
 
+else_if_test() ->
+    {Module,Bin} = compile("module test\nexport [(f,0)]\nfn f()->{if 1==0 then 1 else if 1==0 then 2 else 3 end end}"),
+    load(Module,Bin),
+    ?assert(test:f() == 3).
+
+
 let_test() ->
     {Module,Bin} = compile("module test\nexport [(f,0)]\nfn f()->{let x <- 1;x}"),
     load(Module,Bin),
