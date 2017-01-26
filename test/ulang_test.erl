@@ -1,8 +1,23 @@
 -module(ulang_test).
 -include_lib("eunit/include/eunit.hrl").
 
+
+file_test() ->
+    
+    ?assert(compiler:file("../test/fib.u") == 'fib').
+
+compiler_test() ->
+    compiler:compile("../test/fib.u"),
+    ?assert(filelib:is_file("fib.beam")).
+   
+eval_test() ->
+    Env = erl_eval:bindings(erl_eval:new_bindings()),
+    Expr = "1+1",
+    {Val,_} = compiler:eval(Expr,Env),
+    ?assert(Val==2).
+
 compile(Text) ->
-    case ulang:string(Text) of
+    case ulang_lex:string(Text) of
         {ok,Ret,_} ->
             case ulang_yecc:parse(Ret) of
                 {ok,Spec} ->
