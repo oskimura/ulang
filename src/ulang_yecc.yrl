@@ -2,9 +2,7 @@ Nonterminals program module_exp functions function args arg while_exp let_exp  e
 
 Terminals '.' '(' ')'  '->' '<-' '{' '}' '[' ']' '<' '>' '<=' '>=' ',' 'fn' 'let' 'if' 'then' 'else' 'module' ';' 'end' 'export' int atom char string var op.
 
-
 Rootsymbol program.
-
 
 program ->
     module_exp: [ '$1' ].
@@ -35,9 +33,6 @@ fundecs ->
 fundec ->
     '(' var ',' int ')' :
         {element(3,'$2'), string_to_integer(element(3,'$4'))}.
-
-    
-
 
 functions ->
      function functions:
@@ -96,7 +91,6 @@ exp ->
     remote_call_exp : '$1'.
 exp ->
     tuple_exp : '$1'. 
-
 exp ->
     int : {integer, ?line('$1'), string_to_integer(element(3,'$1'))}.
 exp ->
@@ -107,7 +101,6 @@ exp ->
 let_exp ->
     'let' var '<-' exp :
         {'match', ?line('$1'), '$2', '$4'}.
-
 if_exp ->
     'if' test_exp 'then' true_exp 'else' false_exp 'end':
         {'case', ?line('$1'), 
@@ -125,7 +118,6 @@ true_exp ->
 false_exp ->
      exps :  '$1' .
 
-
 op_exp ->
     exp op exp :
         {op, ?line('$1'), element(3,'$2'), '$1', '$3' }.
@@ -133,7 +125,6 @@ op_exp ->
 call_exp ->
     var '(' ')':
         {call, ?line('$1'),var_to_atom('$1'),nil}.
-
 call_exp ->
     var '(' exps ')' :
         {call, ?line('$1'),var_to_atom('$1'),'$3'}.
@@ -171,16 +162,16 @@ tuple_build ->
     exp :
         [ '$1' ].
 
-
 Erlang code.
+
 -define(line(Tup), element(2, Tup)).
 line(Tup)-> element(2, Tup).
-
 
 string_to_integer(Str) ->
     case string:to_integer(Str) of
         {Code,_} ->
             Code
     end.
+
 var_to_atom({var,Line,V}) ->
     {atom,Line,V}.

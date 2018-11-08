@@ -7,7 +7,6 @@
          command/1,
          command/2]).
 
-
 call_with_read_file(File,Fun) ->
     case file:read_file(File) of
         {ok,Bin} ->
@@ -97,7 +96,6 @@ eval(Bin,Env) ->
             erlang:error({"eval error",{Class,Exception}})
     end.
 
-
 repl() ->
     Env = erl_eval:bindings(erl_eval:new_bindings()),
     repl(Env).
@@ -124,7 +122,6 @@ execute(File,Env) ->
         _ ->
             erlang:error("file read error")
     end.
-
 
 command(File) ->
     command(File,[]).
