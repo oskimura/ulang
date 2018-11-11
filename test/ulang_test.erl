@@ -4,10 +4,10 @@
 
 file_test() ->
     
-    ?assert(compiler:file("../test/fib.u") == 'fib').
+    ?assert(compiler:file("./test/fib.u") == 'fib').
 
 compiler_test() ->
-    compiler:compile("../test/fib.u"),
+    compiler:compile("./test/fib.u"),
     ?assert(filelib:is_file("fib.beam")).
    
 eval_test() ->
