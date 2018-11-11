@@ -1,6 +1,18 @@
 #!/bin/sh
 ERL="erl"
+readlink_f () {
+  cd "$(dirname "$1")" > /dev/null
+  filename="$(basename "$1")"
+  if [ -h "$filename" ]; then
+    readlink_f "$(readlink "$filename")"
+  else
+    echo "`pwd -P`/$filename"
+  fi
+}
 
-echo "$ERL" -pa ../ebin  -noshell -noinput -run  compiler execute "$@"
-exec "$ERL" -pa ../ebin  -noshell -noinput -run  compiler command "$@"  -run init stop
+SELF=$(readlink_f "$0")
+SCRIPT_PATH=$(dirname "$SELF")
+
+echo "$ERL" -pa $SCRIPT_PATH/../ebin  -noshell -noinput -run  compiler execute "$@"
+exec "$ERL" -pa $SCRIPT_PATH/../ebin  -noshell -noinput -run  compiler command "$@"  -run init stop
 
