@@ -1,27 +1,27 @@
 コンパイルにはrebarを使用しますのインストールしてください。
 https://github.com/rebar/rebar
 
-#コンパイル
+# コンパイル
 
 ````
 rebar compile
 ````
 
-#テスト
+# テスト
 
 ````
 rebar eunit
 ````
 
-#実行
+# 実行
 
-###インタプリタ
+### インタプリタ
 
 ````
 bin/ulang
 ````
 
-###コンパイル
+### コンパイル
 
 ````
 bin/ulangc
